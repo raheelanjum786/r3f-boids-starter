@@ -91,8 +91,12 @@ export const Boids = ({ boundaries }) => {
   );
 
   const boids = useMemo(() => {
+    const currentTheme = THEMES[theme];
+    if (!currentTheme || !currentTheme.models || currentTheme.models.length === 0) {
+      return [];
+    }
     return new Array(NB_BOIDS).fill().map((_, i) => ({
-      model: THEMES[theme].models[randInt(0, THEMES[theme].models.length - 1)],
+      model: currentTheme.models[randInt(0, currentTheme.models.length - 1)],
       position: new Vector3(
         randFloat(-boundaries.x / 2, boundaries.x / 2),
         randFloat(-boundaries.y / 2, boundaries.y / 2),
@@ -175,6 +179,7 @@ export const Boids = ({ boundaries }) => {
           const diff = boid.position.clone().sub(other.position);
           diff.normalize();
           diff.divideScalar(d);
+          avoidance.add(diff);
         }
 
         // COHESION
@@ -262,7 +267,7 @@ const Boid = ({
   const { scene, animations } = useGLTF(`/models/${model}.glb`);
   const clone = useMemo(() => SkeletonUtils.clone(scene), [scene]);
   const group = useRef();
-  const { actions } = useAnimations(animations, group);
+  const { actions } = useAnimations(animations || [], group);
   useEffect(() => {
     clone.traverse((child) => {
       if (child.isMesh) {

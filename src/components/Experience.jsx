@@ -98,7 +98,7 @@ export const Experience = () => {
         receiveShadow
       >
         <planeGeometry args={[100, 100]} />
-        <meshStandardMaterial color={THEMES[theme].groundColor} />
+        <meshStandardMaterial color={THEMES[theme]?.groundColor} />
       </mesh>
 
       {/* LIGHTS */}
@@ -120,8 +120,8 @@ export const Experience = () => {
       />
       <hemisphereLight
         intensity={1.35}
-        color={THEMES[theme].skyColor}
-        groundColor={THEMES[theme].groundColor}
+        color={THEMES[theme]?.skyColor}
+        groundColor={THEMES[theme]?.groundColor}
       />
 
       {/* SUN */}
@@ -134,7 +134,7 @@ export const Experience = () => {
         <circleGeometry args={[12, 64]} />
         <meshBasicMaterial
           depthWrite={false}
-          color={THEMES[theme].sunColor}
+          color={THEMES[theme]?.sunColor}
           transparent
           opacity={1}
         />
@@ -162,7 +162,7 @@ export const Experience = () => {
               bevelOffset={0}
               bevelSegments={5}
             >
-              {THEMES[theme].title}
+              {THEMES[theme]?.title}
               <MeshTransmissionMaterial
                 clearcoat={1}
                 samples={3}
@@ -189,7 +189,7 @@ export const Experience = () => {
               bevelOffset={0}
               bevelSegments={5}
             >
-              {THEMES[theme].subtitle}
+              {THEMES[theme]?.subtitle}
               <MeshTransmissionMaterial
                 clearcoat={1}
                 samples={3}
@@ -204,7 +204,7 @@ export const Experience = () => {
 
       {/* Post Processing */}
       <EffectComposer>
-        {THEMES[theme].dof && (
+        {THEMES[theme]?.dof && (
           <DepthOfField
             target={[0, 0, 0]} // where to focus
             worldFocusRange={focusRange} // how far away to start blurring
