@@ -91,12 +91,13 @@ export const Boids = ({ boundaries }) => {
   );
 
   const boids = useMemo(() => {
-    const currentTheme = THEMES[theme];
-    if (!currentTheme || !currentTheme.models || currentTheme.models.length === 0) {
+    const currentTheme = THEMES[theme] ?? THEMES.underwater;
+    const themeModels = Array.isArray(currentTheme.models) ? currentTheme.models : [];
+    if (themeModels.length === 0) {
       return [];
     }
-    return new Array(NB_BOIDS).fill().map((_, i) => ({
-      model: currentTheme.models[randInt(0, currentTheme.models.length - 1)],
+    return new Array(Math.max(0, NB_BOIDS)).fill().map((_, i) => ({
+      model: themeModels[randInt(0, themeModels.length - 1)],
       position: new Vector3(
         randFloat(-boundaries.x / 2, boundaries.x / 2),
         randFloat(-boundaries.y / 2, boundaries.y / 2),
